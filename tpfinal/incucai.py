@@ -6,7 +6,7 @@ from centros_salud import *
 
 class Incucai: 
 
-    def __init__(self, lista_receptores: list[Receptores], lista_donantes: list[Donantes], lista_centros_salud: list[centrosSalud]):
+    def __init__(self, lista_receptores: list[Receptores], lista_donantes: list[Donantes], lista_centros_salud: list[CentrosSalud]):
         self.lista_receptores = lista_receptores
         self.lista_donantes = lista_donantes
         self.lista_centros_salud = lista_centros_salud

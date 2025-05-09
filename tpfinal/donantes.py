@@ -9,3 +9,11 @@ class Donantes(Pacientes):
         self.fecha_hora_fallecimiento = fecha_fallecimiento_hora
         self.fecha_hora_ablacion = fecha_hora_ablacion
         self.listado_organos_donar = listado_organos_donar
+
+    def seteo_fecha(self):
+        """
+        Cuando hay un cirujano y vehiculo disponible, se setea la fecha de ablacion del organo
+        """
+        self.fecha_hora_ablacion = datetime.now()
+        
+        return 
