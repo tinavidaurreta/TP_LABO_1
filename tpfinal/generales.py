@@ -7,7 +7,7 @@ class Generales(Cirujanos):
     def __init__(self):
         super().__init__()
 
-    def exito(self)-> bool: 
+    def exito(self, organo_operar)-> bool: 
         """
         Informo el exito de la operacion segun un numero aleatorio
         """

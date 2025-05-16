@@ -23,24 +23,24 @@ class CentrosSalud:
             Asigna un vehiculo para el transporte del organo, segun el centro del donante '1' y el rececptor '2'
         """
         n = len(self.lista_vehiculos)
-        for k in range (0, n-1, 1):
-            for i in range(0, n-1, 1): #se ordena la lista de vehiculos segun la mayor velocidad
+        for k in range (0, len(self.lista_vehiculos), 1):
+            for i in range(0,len(self.lista_vehiculos)-1, 1): #se ordena la lista de vehiculos segun la mayor velocidad
                 if self.lista_vehiculos[i].velocidad < self.lista_vehiculos[i+1].velocidad:
                     transporte = self.lista_vehiculos[i]
                     self.lista_vehiculos[i] = self.lista_vehiculos[i+1]
                     self.lista_vehiculos[i] = transporte
-        for i in range (0, n-1, 1):
+        for i in range (0, len(self.lista_vehiculos), 1):
             if self.provincia == centro_receptor.provincia:
                 if self.partido == centro_receptor.partido:
-                    if self.lista_vehiculos[i] == type(Auto):
+                    if type(self.lista_vehiculos[i]) == Auto:
                         vehiculo = self.lista_vehiculos[i]
                         break
                 else:
-                    if self.lista_vehiculos[i] == type(Helicoptero):
+                    if type(self.lista_vehiculos[i]) == Helicoptero:
                         vehiculo = self.lista_vehiculos[i]
                         break
             else:
-                    if self.lista_vehiculos[i] == type(Avion):
+                    if type(self.lista_vehiculos[i]) == Avion:
                         vehiculo = self.lista_vehiculos[i]
                         break
         return vehiculo
@@ -50,23 +50,24 @@ class CentrosSalud:
         Asigna un cirujano para el transplante del organo segun su disponibilidad
         """
         n = len(self.lista_cirujanos)
-        for i in range (0,n-1, 1):
+        for i in range (0,len(self.lista_cirujanos), 1):
             if ~self.lista_cirujanos[i].ocupado:
                 cirujano = self.lista_cirujanos[i]
                 self.lista_cirujanos[i].ocupado == True
+                break
             else:
                 print("Ningun cirujano se encuentra disponible")
         
         return cirujano
     
-    def realizar_transplante(self, fecha_hora_ablacion: datetime, vehiculo:Helicoptero | Auto| Avion , cirujano: Generales | Especialista)-> int:
+    def realizar_transplante(self, fecha_hora_ablacion: datetime, vehiculo:Helicoptero | Auto| Avion , cirujano: Generales | Especialista, organo_operar: str)-> int:
         """
         Define si transcurrieron mas de 20hrs desde la fecha de ablacion del organo a la fecha del transplante
         """
         trayecto = vehiculo.tiempo_trayecto()
         fecha_transplante = datetime.now() + trayecto
         if fecha_transplante - fecha_hora_ablacion <= 20:
-            exito = cirujano.exito()
+            exito = cirujano.exito(organo_operar)
         else:
             print("Transcurrieron mas de 20hrs de la fecha de ablacion")
         return exito

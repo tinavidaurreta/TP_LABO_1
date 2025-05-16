@@ -1,18 +1,16 @@
 from abc import ABC, abstractmethod
-from receptores import *
 
 
 class Cirujanos(ABC): 
 
-    def __init__(self, paciente: Receptores ):
+    def __init__(self):
         self.ocupado = False
-        self.organo_operar = paciente.organo
         pass
 
 
 @abstractmethod
 
-def exito(self)->int:
+def exito(self, organo_operar: str)->int:
     """
     Define el exito de la operacion
     """
