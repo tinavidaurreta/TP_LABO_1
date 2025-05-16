@@ -10,6 +10,20 @@ class Incucai:
         self.lista_receptores = lista_receptores
         self.lista_donantes = lista_donantes
         self.lista_centros_salud = lista_centros_salud
+
+    def prioridad_receptores(self):
+        m = len(self.lista_receptores)
+        for i in range (1,m-1,1):
+            for j in range (0,m-i-1,1): # el ordenamiento es de abajo hacia arriba, quedando en la primer posicion a quien reciba el trasplante
+                if self.lista_receptores[j].prioridad > self.lista_receptores[j+1].prioridad:
+                    receptor = self.lista_receptores[j]
+                    self.lista_receptores[j] = self.lista_receptores[j+1]
+                    self.lista_receptores[j+1] = receptor
+                elif self.lista_receptores[j].prioridad == self.lista_receptores[j+1].prioridad:
+                    if  self.lista_receptores[j].fecha_lista_espera < self.lista_receptores[j+1].fecha_lista_espera:
+                        receptor = self.lista_receptores[j]
+                        self.lista_receptores[j] = self.lista_receptores[j+1]
+                        self.lista_receptores[j+1] = receptor
     
     def trasladar_organo(self, pos_receptor: int, pos_donante: int): 
         """ 
@@ -50,44 +64,22 @@ class Incucai:
         """
         Se busca al receptor correspondiente segun su tipo de sangre y organo y se lo guarda en la lista de compatibles.
         """
-        compatibles = list[Receptores]
-        m = 0
+        self.prioridad_receptores()
         k = len(self.lista_donantes[n].listado_organos_donar)
         c = len (self.lista_receptores)
-        for i in range(0,c-1,1): # recorre la lista de receptores.
+        for i in range(0,c,1): # recorre la lista de receptores y una posicion mas para luego ver si no encontro match
             if self.lista_donantes[n].sangre == self.lista_receptores[i].sangre:
                 for j in range(0,k-1,1):
                     if self.lista_donantes[n].listado_organos_donar[j] == self.lista_receptores[i].organo:
-                        compatibles[m]= self.lista_receptores[i]
-                        m=+1
-        """ 
-       Se busca al receptor con mayor prioridad (1: mas, 5:menos) o, en caso de tener una misma, el que mayor antelacion tenga en la lista
-        """
-        m = len(compatibles)
-        for i in range (1,m-1,1):
-            for j in range (0,m-i-1,1): # el ordenamiento es de abajo hacia arriba, quedando en la primer posicion a quien reciba el trasplante
-                if compatibles[j].prioridad > compatibles[j+1].prioridad:
-                    receptor = compatibles[j]
-                    compatibles[j] = compatibles[j+1]
-                    compatibles[j+1] = receptor
-                elif compatibles[j].prioridad == compatibles[j+1].prioridad:
-                    if  compatibles[j].fecha_lista_espera < compatibles[j+1].fecha_lista_espera:
-                        receptor = compatibles[j]
-                        compatibles[j] = compatibles[j+1]
-                        compatibles[j+1] = receptor
-        """ 
-        Se busca la posicion del receptor en la lista de receptores del Incucai
-        """
-        for i in range (0,c-1,1):
-            if compatibles[0] == self.lista_receptores[i]:
-                pos_receptor = i
-        if m != 0 : # si es 0 es porque no hubo coincidencia con ningun receptor
+                        pos_receptor = i
+                        break #ya que la lista esta ordenada de mayor prioridad a menor
+        if i == c : # si es c es porque llego hasta una posicion de mas en el ciclo for
             self.trasladar_organo(self,pos_receptor,n)
             """ 
             Se elimina de la lista de organos del donante el organo que recibira el receptor ya encontrado o si es su ultimo organo se elimina al donante de la lista
             """
             for i in range(0,k-1,1):
-                if self.lista_donantes[n].listado_organos_donar[i] == compatibles[0].organo:
+                if self.lista_donantes[n].listado_organos_donar[i] == self.lista_receptores[pos_receptor].organo:
                         if i == 0: # elimino al donante de la lista de donantes
                                 self.lista_donantes[n] = None
                                 self.lista_donantes = self.lista_donantes[:-1]
@@ -125,6 +117,18 @@ class Incucai:
                             for l in range(i,k-1,1): # borra el organo del donante
                                 self.lista_donantes[n].listado_organos_donar[l] = self.lista_donantes[n].listado_organos_donar[l+1]
         return print("Se ha registrado al receptor correctamente")               
+
+    def imprimir_donantes_receptores(self):
+        """
+        Imprime el listado de pacientes donantes y receptores
+        """
+        n = len (self.lista_donantes)
+        c = len (self.lista_receptores)
+        print("Pacientes\nDonantes     Receptores")
+        for i in range(0, max(n,c), 1):
+            print(f"{i}. {self.lista_donantes[i]}  {self.lista_receptores[i]}"  )
+        return 
+    
 
 
             
