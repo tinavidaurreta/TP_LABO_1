@@ -3,7 +3,7 @@ from generales import Generales
 from auto import Auto
 from helicoptero import Helicoptero
 from avion import Avion
-import datetime
+from datetime import datetime, timedelta
 
 
 class CentrosSalud:
@@ -65,9 +65,9 @@ class CentrosSalud:
         Define si transcurrieron mas de 20hrs desde la fecha de ablacion del organo a la fecha del transplante
         """
         trayecto = vehiculo.tiempo_trayecto()
-        fecha_transplante = datetime.now() + trayecto
-        if fecha_transplante - fecha_hora_ablacion <= 20:
-            exito = cirujano.exito(organo_operar)
+        fecha_transplante = datetime.now() + timedelta(hours=trayecto) #la variable trayecto da en horas
+        if (fecha_transplante - fecha_hora_ablacion).total_seconds() <= 20* 3600: #compara en segundos
+            exito = cirujano.exito(organo_operar) # False: inexitoso True: exito
         else:
             print("Transcurrieron mas de 20hrs de la fecha de ablacion")
         return exito

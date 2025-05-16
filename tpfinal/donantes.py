@@ -1,4 +1,5 @@
 from pacientes import *
+from datetime import datetime
 
 
 
