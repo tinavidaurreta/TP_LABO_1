@@ -4,8 +4,8 @@ import random
 
 class Generales(Cirujanos):
 
-    def __init__(self):
-        super().__init__()
+    def __init__(self, nombre):
+        super().__init__(nombre)
         self.tipo = "general"
 
     def exito(self, organo_operar)-> bool: 

@@ -33,24 +33,38 @@ class Incucai:
         centro_receptor = self.lista_receptores[pos_receptor].centro_salud
         organo_operar = self.lista_receptores[pos_receptor].organo
         vehiculo = centro_donante.asignar_vehiculo(centro_receptor) # el centro de salud del donante asigna un vehiculo
-        cirujano = centro_donante.asignar_cirujano() # el centro de salud del donante asigna un cirujano
-        self.lista_donantes[pos_donante].seteo_fecha() # se setea la fecha de ablacion del organo donante
-        exito = centro_receptor.realizar_transplante(self.lista_donantes[pos_donante].fecha_hora_ablacion,vehiculo,cirujano,organo_operar)
-        n = len(self.lista_receptores)
-        """ 
-        Chequea si el transplante fue exitoso (elimina al receptor de la lista) o no
-        """
-        if exito :
-            if pos_receptor < len(self.lista_receptores) - 1:
-                for i in range(pos_receptor,len(self.lista_receptores)-1,1):
-                    self.lista_receptores[i] = self.lista_receptores[i+1]
-            self.lista_receptores = self.lista_receptores[:-1]
-            print("El transplante fue exitoso")
+        try:
+            cirujano = centro_donante.asignar_cirujano() # el centro de salud del donante asigna un cirujano
+        except ErrDeCirujano as e:
+            print(e)
         else:
-            self.lista_receptores[pos_receptor].prioridad = 1
-            self.lista_receptores[pos_receptor].estado = False # Inestable: False, Estable: True
-            print("El transplante no fue exitoso, el paciente se encuentra inestable y pasa a ser el paciente con mayor prioridad")
-        return
+            cirujano = centro_donante.asignar_cirujano() # el centro de salud del donante asigna un cirujano
+            self.lista_donantes[pos_donante].seteo_fecha() # se setea la fecha de ablacion del organo donante
+            n = len(self.lista_receptores)
+            print(f"El cirujano asignado para el transplante es {cirujano}")
+            print(f"La velocidad del vehiculo asignado {vehiculo} para el transplante es {vehiculo.velocidad}")
+            try:
+                exito = centro_receptor.realizar_transplante(self.lista_donantes[pos_donante].fecha_hora_ablacion,vehiculo,cirujano,organo_operar)
+            except ErrorDeTransplante as e:
+                print(e)
+            else: 
+                """ 
+                Chequea si el transplante fue exitoso (elimina al receptor de la lista) o no
+                """
+                if exito :
+                    if pos_receptor < len(self.lista_receptores) - 1:
+                        for i in range(pos_receptor,len(self.lista_receptores)-1,1):
+                            self.lista_receptores[i] = self.lista_receptores[i+1]
+                    self.lista_receptores = self.lista_receptores[:-1]
+                    print("El transplante fue exitoso")
+                else:
+                    self.lista_receptores[pos_receptor].prioridad = 1
+                    self.lista_receptores[pos_receptor].estado = False # Inestable: False, Estable: True
+                    print("El transplante no fue exitoso, el paciente se encuentra inestable y pasa a ser el paciente con mayor prioridad")
+            finally:
+                return
+        finally:
+            return
 
     def registrar_paciente_donante(self, paciente_donante: Donantes): 
         """ 

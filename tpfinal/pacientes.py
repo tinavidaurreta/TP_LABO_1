@@ -1,5 +1,4 @@
 import datetime
-from organos import Organos
 from centros_salud import CentrosSalud
 
 
@@ -15,3 +14,6 @@ class Pacientes:
         self.sangre = sangre
         self.centro_salud = centro_salud_asociado
         pass
+
+    def __str__(self):
+        return f"Nombre: {self.nombre}" 

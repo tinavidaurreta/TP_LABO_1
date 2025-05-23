@@ -11,7 +11,7 @@ class Auto(Vehiculos):
         """ 
         Calculo el tiempo de trayecto a partir de la velocidad, la distancia y el trafico
         """ 
-        return self.velocidad / (self.dist + self.trafico)
+        return  (self.dist + self.trafico) / self.velocidad 
 
 
  

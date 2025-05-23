@@ -3,7 +3,9 @@ from generales import Generales
 from auto import Auto
 from helicoptero import Helicoptero
 from avion import Avion
+from excepciones.excepcion_tiempo import ErrorDeTransplante
 from datetime import datetime, timedelta
+
 
 
 class CentrosSalud:
@@ -18,6 +20,9 @@ class CentrosSalud:
         self.lista_vehiculos = lista_vehiculos
         pass
 
+    def __str__(self):
+        return f"Nombre: {self.nombre}" 
+
     def asignar_vehiculo(self, centro_receptor) -> Helicoptero | Auto| Avion:
         """
             Asigna un vehiculo para el transporte del organo, segun el centro del donante '1' y el rececptor '2'
@@ -28,7 +33,7 @@ class CentrosSalud:
                 if self.lista_vehiculos[i].velocidad < self.lista_vehiculos[i+1].velocidad:
                     transporte = self.lista_vehiculos[i]
                     self.lista_vehiculos[i] = self.lista_vehiculos[i+1]
-                    self.lista_vehiculos[i] = transporte
+                    self.lista_vehiculos[i+1] = transporte
         for i in range (0, len(self.lista_vehiculos), 1):
             if self.provincia == centro_receptor.provincia:
                 if self.partido == centro_receptor.partido:
@@ -60,7 +65,7 @@ class CentrosSalud:
         
         return cirujano
     
-    def realizar_transplante(self, fecha_hora_ablacion: datetime, vehiculo:Helicoptero | Auto| Avion , cirujano: Generales | Especialista, organo_operar: str)-> int:
+    def realizar_transplante(self, fecha_hora_ablacion: datetime, vehiculo:Helicoptero | Auto| Avion , cirujano: Generales | Especialista, organo_operar: str)-> bool | int:
         """
         Define si transcurrieron mas de 20hrs desde la fecha de ablacion del organo a la fecha del transplante
         """
@@ -68,7 +73,8 @@ class CentrosSalud:
         fecha_transplante = datetime.now() + timedelta(hours=trayecto) #la variable trayecto da en horas
         if (fecha_transplante - fecha_hora_ablacion).total_seconds() <= 20* 3600: #compara en segundos
             exito = cirujano.exito(organo_operar) # False: inexitoso True: exito
+            return exito
         else:
-            print("Transcurrieron mas de 20hrs de la fecha de ablacion")
-        return exito
-    
+            raise ErrorDeTransplante((fecha_transplante - fecha_hora_ablacion).total_seconds())
+            
+   
