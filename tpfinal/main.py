@@ -139,27 +139,27 @@ donante = donantes[0]
 receptor = receptores[0]
 
 try:
-    # Intentar acceder a un atributo exclusivo de receptor
+    #intentar acceder a un atributo exclusivo de receptor
     organo_requerido = receptor.organo
 
     centro_donante = donante.centro_salud
     centro_receptor = receptor.centro_salud
 
-    # 1. Asignar cirujano del centro de salud del donante
+    #asignar cirujano del centro de salud del donante
     cirujano = centro_donante.asignar_cirujano()
     if cirujano is None:
         print("No se pudo asignar un cirujano para el trasplante.")
     else:
-        # 2. Asignar vehículo para transportar el órgano
+        # asignar vehículo para transportar el órgano
         vehiculo = centro_donante.asignar_vehiculo(centro_receptor)
         print(f"Vehículo asignado: {type(vehiculo).__name__}")
 
-        # 3. Realizar el trasplante
+        # realizar el trasplante
         exito = centro_donante.realizar_transplante(donante.fecha_hora_ablacion, vehiculo, cirujano, organo_requerido)
 
         if exito:
             print("Trasplante exitoso.")
-            # Aquí podés actualizar estados, eliminar al receptor de la lista, etc.
+            
         else:
             print("El trasplante falló.")
 
