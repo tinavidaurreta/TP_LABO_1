@@ -51,7 +51,7 @@ class CentrosSalud:
         """
         n = len(self.lista_cirujanos)
         for i in range (0,len(self.lista_cirujanos), 1):
-            if ~self.lista_cirujanos[i].ocupado:
+            if not self.lista_cirujanos[i].ocupado:
                 cirujano = self.lista_cirujanos[i]
                 self.lista_cirujanos[i].ocupado == True
                 break

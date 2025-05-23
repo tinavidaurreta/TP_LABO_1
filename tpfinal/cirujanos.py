@@ -5,7 +5,7 @@ class Cirujanos(ABC):
 
     def __init__(self):
         self.ocupado = False
-        pass
+        
 
 
 @abstractmethod

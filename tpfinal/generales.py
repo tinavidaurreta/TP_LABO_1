@@ -6,6 +6,7 @@ class Generales(Cirujanos):
 
     def __init__(self):
         super().__init__()
+        self.tipo = "general"
 
     def exito(self, organo_operar)-> bool: 
         """

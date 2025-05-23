@@ -1,5 +1,5 @@
 from incucai import *
-
+import random 
 
 DRFELIPE = Generales()
 DRAMARTINA = Especialista('cardiovascular')
@@ -27,7 +27,14 @@ JUSTO = Receptores(46333111, 'Justo', fecha_justo, 'M', 1145451111, 'B', SWISSME
 
 receptores=[FELIPE, JUANA, JUSTO]
 donantes = [CLARA]
-cantidad = input('Ingrese cuanta cantidad de pacientes quiere registrar')
+cantidad = int(input('Ingrese cuanta cantidad de pacientes quiere registrar'))
+#En caso de que se ingrese en formato texto
+try:
+    cantidad = int(cantidad)
+except ValueError:
+    print("Debe ingresar un número entero para la cantidad.")
+    cantidad = 0
+
 if cantidad > 0:
     for j in range(0,cantidad,1):
         x = input('Ingrese "R" si va a ingresar un paciente receptor o ingrese "D" si va a ingresar un paciente donante:' )
@@ -38,22 +45,31 @@ if cantidad > 0:
             sexo = input ('Ingrese su F o M segun su sexo:')
             telefono = input ('Ingrese su numero de telefono:')
             tipo_sangre = input ('Ingrese su tipo de sangre (A / AB / B / 0):')
+            centro_salud = None
             for i in range(0,5,1):
-                centro_salud_num = input ('Ingrese su centro de salud afiliado: (1. ALEMAN 2. SWISSMEDICAL 3.AUSTRAL)') 
-                if centro_salud_num == 1 :
-                    centro_salud = ALEMAN
-                    break
-                elif centro_salud_num == 2:
-                    centro_salud = SWISSMEDICAL
-                    break
-                elif centro_salud_num == 3:
-                    centro_salud = AUSTRAL 
-                    break
-                else :
-                    ('No Ingreso un centro de salud dentro de las opciones')
+                try:
+                    centro_salud_num = int(input('Ingrese su centro de salud afiliado: (1. ALEMAN 2. SWISSMEDICAL 3. AUSTRAL): '))
+                    if centro_salud_num == 1 :
+                     centro_salud = ALEMAN
+                     break
+                    elif centro_salud_num == 2:
+                     centro_salud = SWISSMEDICAL
+                     break
+                    elif centro_salud_num == 3:
+                     centro_salud = AUSTRAL 
+                     break
+                    else :
+                     print('No Ingreso un centro de salud dentro de las opciones')
+                except ValueError:
+                    print('Por favor, ingrese un número válido.')
+            if centro_salud is None:
+                print('No se pudo asignar un centro de salud válido, se asignará ALEMAN por defecto.')
+                centro_salud = ALEMAN
+
             patologia = input ('Ingrese su patologia:')
             organo = input ('Ingrese el organo necesitante:')
-            PACIENTE_RECEPTOR = Receptores(DNI, nombre_apellido, fecha_str, sexo, telefono, tipo_sangre, centro_salud, 0, patologia, True, organo ) # Siempre True hasta que se opere y cambie
+            fecha_lista_espera = datetime.now()
+            PACIENTE_RECEPTOR = Receptores(DNI, nombre_apellido, fecha_str, sexo, telefono, tipo_sangre, centro_salud, fecha_lista_espera, 0, patologia, True, organo) # Siempre True hasta que se opere y cambie
             receptores.append(PACIENTE_RECEPTOR) 
         elif x == 'D':
             DNI = input ('Ingrese su DNI:')
@@ -62,20 +78,32 @@ if cantidad > 0:
             sexo = input ('Ingrese su F o M segun su sexo:')
             telefono = input ('Ingrese su numero de telefono:')
             tipo_sangre = input ('Ingrese su tipo de sangre (A / AB / B / 0):')
+            centro_salud = None
+            fecha_fallecimiento_hora = datetime.now()
+            fecha_hora_ablacion = None
+        
+
             for i in range(0,5,1):
-                centro_salud_num = input ('Ingrese su centro de salud afiliado: (1. ALEMAN 2. SWISSMEDICAL 3.AUSTRAL)')
-                if centro_salud_num == 1 :
-                    centro_salud = ALEMAN
-                    break
-                elif centro_salud_num == 2:
-                    centro_salud = SWISSMEDICAL
-                    break
-                elif centro_salud_num == 3:
-                    centro_salud = AUSTRAL 
-                    break
-                else :
-                    ('No Ingreso un centro de salud dentro de las opciones')
-            organos = input ('Ingrese el los organos donantes:')
+                try:
+                    centro_salud_num = int(input('Ingrese su centro de salud afiliado: (1. ALEMAN 2. SWISSMEDICAL 3. AUSTRAL): '))
+                    if centro_salud_num == 1 :
+                        centro_salud = ALEMAN
+                        break
+                    elif centro_salud_num == 2:
+                      centro_salud = SWISSMEDICAL
+                      break
+                    elif centro_salud_num == 3:
+                        centro_salud = AUSTRAL 
+                        break
+                    else :
+                        print('No Ingreso un centro de salud dentro de las opciones')
+                except ValueError:
+                    print('Por favor, ingrese un número válido.')
+
+            if centro_salud is None:
+                print('No se pudo asignar un centro de salud válido, se asignará ALEMAN por defecto.')
+                centro_salud = ALEMAN 
+            organos = input ('Ingrese el/los organos donantes:')
             palabra = ""
             lista_organos = []
             for caracter in organos:
@@ -92,3 +120,48 @@ if cantidad > 0:
 
     INCUCAI= Incucai(receptores,donantes,[SWISSMEDICAL,AUSTRAL,ALEMAN])
     # Faltan excepciones y chequear que agregue bien, hacer mas medicos, mas sedes
+
+CENTROS = [ALEMAN, SWISSMEDICAL, AUSTRAL]
+
+print("\n--- Médicos por centro de salud ---")
+for centro in CENTROS:
+    print(f"\nCentro: {centro.nombre}")
+    for medico in centro.lista_cirujanos:
+        print(f"- Especialidad: {medico.tipo}")
+
+
+incucai = Incucai(receptores, donantes, CENTROS)
+cant_receptores_antes = len(incucai.lista_receptores)
+incucai.trasladar_organo(0, 0)  # o los índices que correspondan
+cant_receptores_despues = len(incucai.lista_receptores)
+
+donante = donantes[0]
+receptor = receptores[0]
+
+try:
+    # Intentar acceder a un atributo exclusivo de receptor
+    organo_requerido = receptor.organo
+
+    centro_donante = donante.centro_salud
+    centro_receptor = receptor.centro_salud
+
+    # 1. Asignar cirujano del centro de salud del donante
+    cirujano = centro_donante.asignar_cirujano()
+    if cirujano is None:
+        print("No se pudo asignar un cirujano para el trasplante.")
+    else:
+        # 2. Asignar vehículo para transportar el órgano
+        vehiculo = centro_donante.asignar_vehiculo(centro_receptor)
+        print(f"Vehículo asignado: {type(vehiculo).__name__}")
+
+        # 3. Realizar el trasplante
+        exito = centro_donante.realizar_transplante(donante.fecha_hora_ablacion, vehiculo, cirujano, organo_requerido)
+
+        if exito:
+            print("Trasplante exitoso.")
+            # Aquí podés actualizar estados, eliminar al receptor de la lista, etc.
+        else:
+            print("El trasplante falló.")
+
+except AttributeError:
+    print("El paciente no es receptor, no se puede realizar el trasplante.")

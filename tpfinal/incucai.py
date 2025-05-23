@@ -137,8 +137,5 @@ class Incucai:
     
 
 
-            
-
-
 
 
