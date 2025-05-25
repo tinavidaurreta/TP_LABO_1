@@ -2,7 +2,10 @@ from abc import ABC, abstractmethod
 
 
 
-class Vehiculos(ABC): 
+class Vehiculos(ABC):
+    """ 
+    Esta clase (padre) contiene la informacion de cada vehiculo
+    """
     
     def __init__(self, velocidad: int, registro_viaje: int, dist: int, trafico: int):
         self.velocidad = velocidad

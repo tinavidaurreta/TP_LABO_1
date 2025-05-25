@@ -4,6 +4,9 @@ from centros_salud import CentrosSalud
 
 
 class Pacientes: 
+    """
+    Esta clase (padre) contiene la informacion sobre los pacientes 
+    """
 
     def __init__(self, DNI: int, nombre: str, fecha_nacimiento: datetime, sexo: str, telefono: int, sangre: str, centro_salud_asociado: CentrosSalud):
         self.dni = DNI

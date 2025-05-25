@@ -1,5 +1,4 @@
 from incucai import *
-from excepciones.expecion_char import ErrDeChar
 import random 
 
 DRFELIPE = Generales('Dr.Felipe')
@@ -11,22 +10,22 @@ DRAMERCEDES = Especialista('Dra.Mercedes','plastico')
 DRJAVIER = Especialista('Dr.Javier','gastroenterologo')
 HELICOPTERO = Helicoptero(300, 0, 500, 0)#TRAFICO SE SUMA EN KM A LA DIST
 AVION = Avion(800, 0, 1000, 0)
-AUTO_1 = Auto(100, 0, 50, 12000000000)
-AUTO_2 = Auto(60, 0, 80, 1234565432)
-AUTO_3 = Auto(130, 0, 150, 123456543)
-ALEMAN = CentrosSalud("Aleman", 'Av.Pueyrredon 1640', 'CABA', 'BuenosAires', 1148277000, [DRFELIPE, DRAMARTINA],[HELICOPTERO,AVION,AUTO_1, AUTO_2, AUTO_3])
-SWISSMEDICAL = CentrosSalud("SwissMedical", 'SanMartindeTours 2980', 'Capital', 'Cordoba', 8103338876 , [DRALFREDO, DRSEBASTIAN], [HELICOPTERO,AVION,AUTO_3])
-BRITANICO = CentrosSalud("Britanico", "Solis 2171",'CABA','BuenosAires', 1143096400, [DRJAVIER],[AUTO_1,AUTO_2,AUTO_3])
-AUSTRAL = CentrosSalud("Austral", 'Av.Pres.JuanDomingoPeron 1500', 'Pilar', 'BuenosAires', 2304482000 , [DRAMERCEDES,DRJOAQUIN], [HELICOPTERO,AVION,AUTO_3])
+AUTO_1 = Auto(100, 0, 50, 0)
+AUTO_2 = Auto(60, 0, 80, 0)
+AUTO_3 = Auto(130, 0, 150, 0)
+ALEMAN = CentrosSalud('Aleman', 'Av.Pueyrredon 1640', 'CABA', 'BuenosAires', 1148277000, [DRFELIPE, DRAMARTINA],[HELICOPTERO,AVION,AUTO_1, AUTO_2, AUTO_3])
+SWISSMEDICAL = CentrosSalud('SwissMedical', 'SanMartindeTours 2980', 'Capital', 'Cordoba', 8103338876 , [DRALFREDO, DRSEBASTIAN], [HELICOPTERO,AVION,AUTO_3])
+BRITANICO = CentrosSalud('Britanico', 'Solis 2171','CABA','BuenosAires', 1143096400, [DRJAVIER],[AUTO_1,AUTO_2,AUTO_3])
+AUSTRAL = CentrosSalud('Austral', 'Av.Pres.JuanDomingoPeron 1500', 'Pilar', 'BuenosAires', 2304482000 , [DRAMERCEDES,DRJOAQUIN], [HELICOPTERO,AVION,AUTO_3])
 fecha_clara = datetime(2004, 5, 14)
 fecha_juana = datetime(2004, 2, 13)
 fecha_felipe = datetime(2004, 12, 18)
 fecha_justo = datetime(2003, 5, 20)
 CLARA = Donantes(46111111, 'Clara Gomez', fecha_clara, 'F', 1128112222, 'AB', ALEMAN, 0, 0, ['corazon', 'piel', 'higado','pancreas'])
-JUANA = Receptores(46222222, 'Juana Kallis',fecha_juana, 'F', 1123459876, 'A', SWISSMEDICAL, 0 , 4, 'hepatitis', False, 'higado')# Inestable: False, Estable: True
+SIMON = Receptores(46222222, 'Simon Villanueva',fecha_juana, 'M', 1123459876, 'A', SWISSMEDICAL, 0 , 4, 'hepatitis', False, 'higado')# Inestable: False, Estable: True
 FELIPE = Receptores(46222333, 'Felipe Nini',fecha_felipe, 'M', 1145454545, 'AB' , AUSTRAL, 0, 2, 'FibrosisQuistica', True, 'pulmon')
 JUSTO = Receptores(46333111, 'Justo Larguia', fecha_justo, 'M', 1145451111, 'B', ALEMAN, 0, 3, 'Paro', True, 'corazon')
-receptores=[FELIPE, JUANA, JUSTO]
+receptores=[FELIPE, SIMON, JUSTO]
 donantes = [CLARA]
 INCUCAI= Incucai(receptores,donantes,[SWISSMEDICAL,AUSTRAL,ALEMAN,BRITANICO])
 cantidad = int(input('Ingrese cuanta cantidad de pacientes quiere registrar'))
@@ -34,22 +33,22 @@ cantidad = int(input('Ingrese cuanta cantidad de pacientes quiere registrar'))
 try:
     cantidad = int(cantidad)
 except ValueError:
-    print("Debe ingresar un número entero para la cantidad.")
+    print('Debe ingresar un número entero para la cantidad.')
     cantidad = 0
 
 if cantidad > 0:
     for j in range(0,cantidad,1):
         x = input('Ingrese "R" si va a ingresar un paciente receptor o ingrese "D" si va a ingresar un paciente donante:' ).upper()
-        try:
+        '''try:
             if x != "R" or x != "D":
                 raise ErrDeChar()
         except ErrDeChar as e:
             print(e)
-            x = None
+            x = None'''
         if x == 'R' :
             DNI = input ('Ingrese su DNI:')
             nombre_apellido = input ('Ingrese su nombre y apellido:')
-            fecha_str = input("Ingrese una fecha de nacimiento en formato DD/MM/AAAA: ")
+            fecha_str = input('Ingrese una fecha de nacimiento en formato DD/MM/AAAA: ')
             sexo = input ('Ingrese su F o M segun su sexo:')
             telefono = input ('Ingrese su numero de telefono:')
             tipo_sangre = input ('Ingrese su tipo de sangre (A / AB / B / 0):').upper()
@@ -75,11 +74,10 @@ if cantidad > 0:
             fecha_lista_espera = datetime.now()
             PACIENTE_RECEPTOR = Receptores(DNI, nombre_apellido, fecha_str, sexo, telefono, tipo_sangre, centro_salud, fecha_lista_espera, prioridad, patologia, True, organo) # Siempre True hasta que se opere y cambie
             INCUCAI.registrar_paciente_receptor(PACIENTE_RECEPTOR)
-            
         elif x == 'D':
             DNI = input ('Ingrese su DNI:')
             nombre_apellido = input ('Ingrese su nombre y apellido:')
-            fecha_str = input("Ingrese una fecha de nacimiento en formato DD/MM/AAAA: ")
+            fecha_str = input('Ingrese una fecha de nacimiento en formato DD/MM/AAAA: ')
             sexo = input ('Ingrese su F o M segun su sexo:')
             telefono = input ('Ingrese su numero de telefono:')
             tipo_sangre = input ('Ingrese su tipo de sangre (A / AB / B / 0):').upper()

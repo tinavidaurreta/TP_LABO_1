@@ -5,13 +5,19 @@ from centros_salud import *
 
 
 class Incucai: 
+    """
+        Esta clase se encarga de unir la lista de centros de salud con los pacientes y donantes, realizando los transplantes y registrando a los pacientes correcpondientes
+    """
 
     def __init__(self, lista_receptores: list[Receptores], lista_donantes: list[Donantes], lista_centros_salud: list[CentrosSalud]):
         self.lista_receptores = lista_receptores
         self.lista_donantes = lista_donantes
         self.lista_centros_salud = lista_centros_salud
 
-    def prioridad_receptores(self):
+    def prioridad_receptores(self)-> None:
+        """
+        Ordena la lista de pacientes receptors de mayor a menor prioridad (1: menor 5: mayor)
+        """
         m = len(self.lista_receptores)
         for i in range (1,len(self.lista_receptores)-1,1):
             for j in range (0,m-i,1): # el ordenamiento es de abajo hacia arriba, quedando en la primer posicion a quien reciba el trasplante
@@ -24,10 +30,13 @@ class Incucai:
                         receptor = self.lista_receptores[j]
                         self.lista_receptores[j] = self.lista_receptores[j+1]
                         self.lista_receptores[j+1] = receptor
+        return
     
-    def trasladar_organo(self, pos_receptor: int, pos_donante: int): 
+    def trasladar_organo(self, pos_receptor: int, pos_donante: int)-> None: 
         """ 
-        Realiza el transplante con vehiculo y cirujano asignado
+        Realiza el transplante con vehiculo y cirujano asignado y verifica su exito, eliminando al paciente receptor y el organo utilizado del donante
+            - pos_receptor: la posicion del receptor del transplante en la lista de receptores
+            - pos_donante: la posicion del donante del transplante en la lista de donantes
         """
         centro_donante = self.lista_donantes[pos_donante].centro_salud
         centro_receptor = self.lista_receptores[pos_receptor].centro_salud
@@ -66,9 +75,10 @@ class Incucai:
         finally:
             return
 
-    def registrar_paciente_donante(self, paciente_donante: Donantes): 
+    def registrar_paciente_donante(self, paciente_donante: Donantes)-> None: 
         """ 
         Chequea que el paciente ingresado no este anteriormente registrado
+            - paciente_donante: donante que se va a registrar
         """
         for donante in self.lista_donantes:
             if paciente_donante == donante:
@@ -90,7 +100,7 @@ class Incucai:
                         pos_organo = j
                         self.trasladar_organo(pos_receptor,n-1) #ya que la lista esta ordenada de mayor prioridad a menor
                         """ 
-                        Se elimina de la lista de organos del donante el organo que recibira el receptor ya encontrado o si es su ultimo organo se elimina al donante de la lista
+                        Se elimina de la lista de organos del donante el organo que recibira el receptor ya encontrado o, si es su ultimo organo, se elimina al donante de la lista
                         """
                         if k == 1:
                             for r in range(n-1,len(self.lista_donantes)-1,1): # borra al donante ya que solo donaba uno solo
@@ -103,9 +113,10 @@ class Incucai:
                         break
         return
 
-    def registrar_paciente_receptor(self, paciente_receptor: Receptores):
+    def registrar_paciente_receptor(self, paciente_receptor: Receptores)-> None:
         """
         Chequea que el paciente ingresado no este anteriormente registrado
+            - paciente_receptor: receptor que se va a registrar
         """
         for receptor in self.lista_receptores:
             if paciente_receptor == receptor:
@@ -138,7 +149,7 @@ class Incucai:
         return           
                     
 
-    def imprimir_donantes_receptores(self):
+    def imprimir_donantes_receptores(self)-> None:
         """
         Imprime el listado de pacientes donantes y receptores
         """

@@ -4,12 +4,16 @@ from auto import Auto
 from helicoptero import Helicoptero
 from avion import Avion
 from excepciones.excepcion_tiempo import ErrorDeTransplante
+from excepciones.expecion_cirujano import ErrDeCirujano
 from datetime import datetime, timedelta
 
 
 
 class CentrosSalud:
-
+    """
+    Esta clase contiene la informacion de los vehiculos y cirujanos  
+    """
+    
     def __init__(self, nombre: str, direccion: str, partido: str, provincia: str, telefono: int, lista_cirujanos:list[Generales | Especialista], lista_vehiculos: list[ Helicoptero | Auto| Avion]):
         self.nombre = nombre
         self.direccion = direccion
@@ -25,7 +29,8 @@ class CentrosSalud:
 
     def asignar_vehiculo(self, centro_receptor) -> Helicoptero | Auto| Avion:
         """
-            Asigna un vehiculo para el transporte del organo, segun el centro del donante '1' y el rececptor '2'
+            Asigna un vehiculo para el transporte del organo
+                - centro_receptor: el centro de salud del paciene receptor del transplante 
         """
         n = len(self.lista_vehiculos)
         for k in range (0, len(self.lista_vehiculos), 1):
@@ -59,15 +64,17 @@ class CentrosSalud:
             if not self.lista_cirujanos[i].ocupado:
                 cirujano = self.lista_cirujanos[i]
                 self.lista_cirujanos[i].ocupado == True
-                break
+                return cirujano
             else:
-                print("Ningun cirujano se encuentra disponible")
-        
-        return cirujano
+                raise ErrDeCirujano()
     
-    def realizar_transplante(self, fecha_hora_ablacion: datetime, vehiculo:Helicoptero | Auto| Avion , cirujano: Generales | Especialista, organo_operar: str)-> bool | int:
+    def realizar_transplante(self, fecha_hora_ablacion: datetime, vehiculo:Helicoptero | Auto| Avion , cirujano: Generales | Especialista, organo_operar: str)-> bool:
         """
-        Define si transcurrieron mas de 20hrs desde la fecha de ablacion del organo a la fecha del transplante
+        Chequea si transcurrieron mas de 20hrs desde la fecha de ablacion del organo a la fecha del transplante, y sino, define el exito segun el cirujano
+            - Fecha_hora_ablacion: fecha de cuando se retiro el organo 
+            - vehiculo: vehiculo del transplante, que tiene la informacion de la distancia y el trafico
+            - cirujano: cirujano del transplante
+            - organo_operar: organo que se transplanta
         """
         trayecto = vehiculo.tiempo_trayecto()
         fecha_transplante = datetime.now() + timedelta(hours=trayecto) #la variable trayecto da en horas

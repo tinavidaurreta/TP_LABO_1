@@ -3,6 +3,9 @@ from vehiculos import *
 
 
 class Auto(Vehiculos):
+    """ 
+    Esta clase contiene la informacion de un auto
+    """
 
     def __init__(self, velocidad, registro_viaje, dist, trafico):
         super().__init__(velocidad, registro_viaje, dist, trafico)
