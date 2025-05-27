@@ -69,7 +69,7 @@ class Incucai:
                 else:
                     self.lista_receptores[pos_receptor].prioridad = 1
                     self.lista_receptores[pos_receptor].estado = False # Inestable: False, Estable: True
-                    print("El transplante no fue exitoso, el paciente se encuentra inestable y pasa a ser el paciente con mayor prioridad")
+                    print(f"El transplante no fue exitoso, el paciente {self.lista_receptores[pos_receptor]} se encuentra inestable y pasa a ser el paciente con mayor prioridad")
             finally:
                 return
         finally:
@@ -155,12 +155,37 @@ class Incucai:
         """
         n = len (self.lista_donantes)
         c = len (self.lista_receptores)
-        print("Pacientes\nDonantes     Receptores")
-        for i in range(0, max(n,c), 1):
-            print(f"{i}. {self.lista_donantes[i]}  {self.lista_receptores[i]}"  )
+        print("Pacientes\nDonantes                Receptores")
+        for i in range(max(n,c)):
+            if i<n: 
+                donante = self.lista_donantes[i]
+            else: 
+                donante = "-"
+            if i<c: 
+                receptor = self.lista_receptores[i]
+            else: 
+                receptor = "-"
+
+            print(f"{i+1}. {str(donante):<20}  {str(receptor)}")
         return 
     
-
+    def prioridad_paciente(self, dni: int)-> int:
+        """
+        Busca e imprime la prioridad del paciente receptor ingresado y retorna un numero, 0 si pertenece a un donante, 1, si es de un receptor o -1 si no se encuentra registrado
+            - dni: dni de paciente a buscar
+        """
+        n = len(self.lista_receptores)
+        c = len(self.lista_donantes)
+        for i in range(c):
+            if dni == self.lista_donantes[i].dni:
+                print("El DNI ingresado pertenece a un paciente donante")
+                return 0
+        for i in range(n):
+            if dni == self.lista_receptores[i].dni:
+                print (f"La prioridad del paciente ingresado es {self.lista_receptores[i].prioridad}")
+                return 1
+        print ("El DNI ingresado no pertenece a un paciente registrado")
+        return -1
 
 
 
