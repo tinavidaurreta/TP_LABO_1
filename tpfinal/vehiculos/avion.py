@@ -12,7 +12,9 @@ class Avion(Vehiculos):
 
     def tiempo_trayecto(self) -> int:
         """ 
-        Calculo el tiempo de trayecto a partir de la velocidad, la distancia y el trafico
+        Calculo el tiempo de trayecto a partir de la velocidad y la distancia
+        returns:
+            Retorna en horas el tiempo total del trayecto 
         """
         return (self.dist)/ self.velocidad
 

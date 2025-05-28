@@ -18,13 +18,13 @@ SWISSMEDICAL = CentrosSalud('SwissMedical', 'SanMartindeTours 2980', 'Capital', 
 BRITANICO = CentrosSalud('Britanico', 'Solis 2171','CABA','BuenosAires', 1143096400, [DRJAVIER],[AUTO_1,AUTO_2,AUTO_3])
 AUSTRAL = CentrosSalud('Austral', 'Av.Pres.JuanDomingoPeron 1500', 'Pilar', 'BuenosAires', 2304482000 , [DRAMERCEDES,DRJOAQUIN], [HELICOPTERO,AVION,AUTO_3])
 fecha_clara = datetime(2004, 5, 14)
-fecha_juana = datetime(2004, 2, 13)
+fecha_simon = datetime(2004, 2, 13)
 fecha_felipe = datetime(2004, 12, 18)
 fecha_justo = datetime(2003, 5, 20)
 CLARA = Donantes(46111111, 'Clara Gomez', fecha_clara, 'F', 1128112222, 'AB', ALEMAN, 0, 0, ['corazon', 'piel', 'higado','pancreas'])
-SIMON = Receptores(46222222, 'Simon Villanueva',fecha_juana, 'M', 1123459876, 'A', SWISSMEDICAL, 0 , 4, 'hepatitis', False, 'higado')# Inestable: False, Estable: True
-FELIPE = Receptores(46222333, 'Felipe Nini',fecha_felipe, 'M', 1145454545, 'AB' , AUSTRAL, 0, 2, 'FibrosisQuistica', True, 'pulmon')
-JUSTO = Receptores(46333111, 'Justo Larguia', fecha_justo, 'M', 1145451111, 'B', ALEMAN, 0, 3, 'Paro', True, 'corazon')
+SIMON = Receptores(46222222, 'Simon Villanueva',fecha_simon, 'M', 1123459876, 'A', SWISSMEDICAL, 0 , 4, 'hepatitis', False, 'higado')# Inestable: False, Estable: True
+FELIPE = Receptores(46333333, 'Felipe Nini',fecha_felipe, 'M', 1145454545, 'AB' , AUSTRAL, 0, 2, 'FibrosisQuistica', True, 'pulmon')
+JUSTO = Receptores(46444444, 'Justo Larguia', fecha_justo, 'M', 1145451111, 'B', ALEMAN, 0, 3, 'Paro', True, 'corazon')
 receptores=[FELIPE, SIMON, JUSTO]
 donantes = [CLARA]
 INCUCAI= Incucai(receptores,donantes,[SWISSMEDICAL,AUSTRAL,ALEMAN,BRITANICO])
@@ -39,15 +39,20 @@ def menu(opcion):
                     print('Debe ingresar un número entero para la cantidad.')
                     cantidad = 0
                 if cantidad > 0:
-                    for j in range(0,cantidad,1):
-                        x = input('Ingrese "R" si va a ingresar un paciente receptor o ingrese "D" si va a ingresar un paciente donante:' ).upper()
+                    j = 0
+                    while j < cantidad:
+                        x = input('Ingrese "R" si va a ingresar un paciente receptor o ingrese "D" si va a ingresar un paciente donante:').upper()
                         if x == 'R' :
-                            DNI = input ('Ingrese su DNI:')
+                            try:
+                                DNI = int(input ('Ingrese su DNI:')) #ELEMENTAL
+                            except ValueError:
+                                print('Debe ingresar un número entero para el DNI.')
+                                DNI = 0
                             nombre_apellido = input ('Ingrese su nombre y apellido:')
-                            fecha_str = input('Ingrese una fecha de nacimiento en formato DD/MM/AAAA: ')
-                            sexo = input ('Ingrese su F o M segun su sexo:')
+                            fecha_str = input('Ingrese una fecha de nacimiento en formato DD/MM/AAAA:')
+                            sexo = input ('Ingrese su F o M segun su sexo:').upper()
                             telefono = input ('Ingrese su numero de telefono:')
-                            tipo_sangre = input ('Ingrese su tipo de sangre (A / AB / B / 0):').upper()
+                            tipo_sangre = input ('Ingrese su tipo de sangre (A / AB / B / 0):').upper() #ELEMENTAL
                             prioridad = random.randint(1,5)
                             centro_salud = None
                             try:
@@ -70,6 +75,7 @@ def menu(opcion):
                             fecha_lista_espera = datetime.now()
                             PACIENTE_RECEPTOR = Receptores(DNI, nombre_apellido, fecha_str, sexo, telefono, tipo_sangre, centro_salud, fecha_lista_espera, prioridad, patologia, True, organo) # Siempre True hasta que se opere y cambie
                             INCUCAI.registrar_paciente_receptor(PACIENTE_RECEPTOR)
+                            j += 1
                         elif x == 'D':
                             DNI = input ('Ingrese su DNI:')
                             nombre_apellido = input ('Ingrese su nombre y apellido:')
@@ -108,6 +114,9 @@ def menu(opcion):
                                 lista_organos.append(palabra)
                             PACIENTE_DONANTE = Donantes(DNI, nombre_apellido, fecha_str, sexo, telefono, tipo_sangre, centro_salud, fecha_fallecimiento_hora, fecha_hora_ablacion, lista_organos)
                             INCUCAI.registrar_paciente_donante(PACIENTE_DONANTE)
+                            j += 1
+                        else:
+                            print('Debe ingresar "R" o "D"')
                 break
         case 2:
             try:

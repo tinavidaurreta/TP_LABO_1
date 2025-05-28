@@ -29,8 +29,11 @@ class CentrosSalud:
 
     def asignar_vehiculo(self, centro_receptor) -> Helicoptero | Auto| Avion:
         """
-            Asigna un vehiculo para el transporte del organo
-                - centro_receptor: el centro de salud del paciene receptor del transplante 
+        Asigna un vehiculo para el transporte del organo
+        parametros:
+            - centro_receptor: el centro de salud del paciene receptor del transplante 
+        returns:
+            Retorna un tipo de vehuiculo con una distancia y un registro de viajes
         """
         n = len(self.lista_vehiculos)
         for k in range (0, len(self.lista_vehiculos), 1):
@@ -44,20 +47,25 @@ class CentrosSalud:
                 if self.partido == centro_receptor.partido:
                     if type(self.lista_vehiculos[i]) == Auto:
                         vehiculo = self.lista_vehiculos[i]
+                        self.lista_vehiculos[i].registro_viaje +=1
                         break
                 else:
                     if type(self.lista_vehiculos[i]) == Helicoptero:
                         vehiculo = self.lista_vehiculos[i]
+                        self.lista_vehiculos[i].registro_viaje +=1
                         break
             else:
                     if type(self.lista_vehiculos[i]) == Avion:
                         vehiculo = self.lista_vehiculos[i]
+                        self.lista_vehiculos[i].registro_viaje +=1
                         break
         return vehiculo
     
     def asignar_cirujano(self)-> Generales | Especialista:
         """
         Asigna un cirujano para el transplante del organo segun su disponibilidad
+        returns:
+            Devuelve un cirujano para el transplante sea general o especialista
         """
         n = len(self.lista_cirujanos)
         cirujano = 0
@@ -72,15 +80,18 @@ class CentrosSalud:
     def realizar_transplante(self, fecha_hora_ablacion: datetime, vehiculo:Helicoptero | Auto| Avion , cirujano: Generales | Especialista, organo_operar: str)-> bool:
         """
         Chequea si transcurrieron mas de 20hrs desde la fecha de ablacion del organo a la fecha del transplante, y sino, define el exito segun el cirujano
+        parametros:
             - Fecha_hora_ablacion: fecha de cuando se retiro el organo 
-            - vehiculo: vehiculo del transplante, que tiene la informacion de la distancia y el trafico
+            - vehiculo: vehiculo del transplante, que tiene la informacion de la distancia y el trafico, en horas
             - cirujano: cirujano del transplante
             - organo_operar: organo que se transplanta
+        returns:
+            Devuelve un bool que si es True significa que el transplante fue exitoso y sino no 
         """
         trayecto = vehiculo.tiempo_trayecto()
-        fecha_transplante = datetime.now() + timedelta(hours=trayecto) #la variable trayecto da en horas
+        fecha_transplante = datetime.now() + timedelta(hours=trayecto)
         if (fecha_transplante - fecha_hora_ablacion).total_seconds() <= 20* 3600: #compara en segundos
-            exito = cirujano.exito(organo_operar) # False: inexitoso True: exito
+            exito = cirujano.exito(organo_operar) 
             return exito
         else:
             raise ErrorDeTransplante((fecha_transplante - fecha_hora_ablacion).total_seconds())

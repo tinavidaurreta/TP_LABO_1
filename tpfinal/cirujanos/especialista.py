@@ -14,7 +14,10 @@ class Especialista(Cirujanos):
     def exito(self, organo_operar)-> bool: 
         """
         Informo el exito de la operacion segun el organo a operar
+        parametros:
             - organo_operar: el organo del transplante
+        returns:
+            Retorna un True si el numero random es mayor o igual a 3 o mayor a 5
         """
         numero = random.randint(1,10)
         if (self.tipo == "cardiovascular" and organo_operar == "corazon" ) or (self.tipo == "pulmonar" and organo_operar == "pulmones") or (self.tipo == "plastico" and (organo_operar == "piel" or organo_operar == "corneas")) or (self.tipo == "traumatologo" and organo_operar == "huesos") or (self.tipo == "gastroenterologo" and (organo_operar == "intestinos" or organo_operar == "higado" or organo_operar == "riñon" or organo_operar == "pancreas")):

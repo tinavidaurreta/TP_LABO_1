@@ -13,6 +13,8 @@ class Auto(Vehiculos):
     def tiempo_trayecto(self) -> int:
         """ 
         Calculo el tiempo de trayecto a partir de la velocidad, la distancia y el trafico
+        returns:
+            Retorna en horas el tiempo total del trayecto incluyendo al trafico
         """ 
         return  (self.dist + self.trafico) / self.velocidad 
 

@@ -35,8 +35,12 @@ class Incucai:
     def trasladar_organo(self, pos_receptor: int, pos_donante: int)-> None: 
         """ 
         Realiza el transplante con vehiculo y cirujano asignado y verifica su exito, eliminando al paciente receptor y el organo utilizado del donante
+        parametros:
             - pos_receptor: la posicion del receptor del transplante en la lista de receptores
             - pos_donante: la posicion del donante del transplante en la lista de donantes
+        precon:
+            - se debe cumplir que se encuentre un cirujano disponible
+            - se debe cumplir que el tiempo del trayecto no supere las 20 horas
         """
         centro_donante = self.lista_donantes[pos_donante].centro_salud
         centro_receptor = self.lista_receptores[pos_receptor].centro_salud
@@ -77,6 +81,7 @@ class Incucai:
     def registrar_paciente_donante(self, paciente_donante: Donantes)-> None: 
         """ 
         Chequea que el paciente ingresado no este anteriormente registrado
+        parametros:
             - paciente_donante: donante que se va a registrar
         """
         for donante in self.lista_donantes:
@@ -115,6 +120,7 @@ class Incucai:
     def registrar_paciente_receptor(self, paciente_receptor: Receptores)-> None:
         """
         Chequea que el paciente ingresado no este anteriormente registrado
+        parametros:
             - paciente_receptor: receptor que se va a registrar
         """
         for receptor in self.lista_receptores:
@@ -170,7 +176,10 @@ class Incucai:
     def prioridad_paciente(self, dni: int)-> int:
         """
         Busca e imprime la prioridad del paciente receptor ingresado y retorna un numero, 0 si pertenece a un donante, 1, si es de un receptor o -1 si no se encuentra registrado
+        parametros:
             - dni: dni de paciente a buscar
+        return
+            Un numero, 0 si el dni es de un donante, -1 si se busca un paciente no registrado o 1 si se imprime la prioridad buscada
         """
         n = len(self.lista_receptores)
         c = len(self.lista_donantes)
