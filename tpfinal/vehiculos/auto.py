@@ -1,10 +1,10 @@
-from vehiculos import *
+from tpfinal.vehiculos.vehiculos import *
 
 
 
-class Avion(Vehiculos):
+class Auto(Vehiculos):
     """ 
-    Esta clase contiene la informacion de un avion
+    Esta clase contiene la informacion de un auto
     """
 
     def __init__(self, velocidad, registro_viaje, dist, trafico):
@@ -13,8 +13,8 @@ class Avion(Vehiculos):
     def tiempo_trayecto(self) -> int:
         """ 
         Calculo el tiempo de trayecto a partir de la velocidad, la distancia y el trafico
-        """
-        return (self.dist)/ self.velocidad
+        """ 
+        return  (self.dist + self.trafico) / self.velocidad 
 
 
  

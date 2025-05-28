@@ -1,8 +1,8 @@
-from especialista import Especialista
-from generales import Generales
-from auto import Auto
-from helicoptero import Helicoptero
-from avion import Avion
+from tpfinal.cirujanos.especialista import Especialista
+from tpfinal.cirujanos.generales import Generales
+from tpfinal.vehiculos.auto import Auto
+from tpfinal.vehiculos.helicoptero import Helicoptero
+from tpfinal.vehiculos.avion import Avion
 from excepciones.excepcion_tiempo import ErrorDeTransplante
 from excepciones.expecion_cirujano import ErrDeCirujano
 from datetime import datetime, timedelta

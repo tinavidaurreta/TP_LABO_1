@@ -1,4 +1,4 @@
-from cirujanos import Cirujanos
+from tpfinal.cirujanos.cirujanos import Cirujanos
 import random
 
 

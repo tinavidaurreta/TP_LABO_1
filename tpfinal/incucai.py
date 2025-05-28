@@ -1,5 +1,5 @@
-from receptores import *
-from donantes import *
+from tpfinal.pacientes.receptores import *
+from tpfinal.pacientes.donantes import *
 from centros_salud import *
 
 
@@ -118,7 +118,7 @@ class Incucai:
             - paciente_receptor: receptor que se va a registrar
         """
         for receptor in self.lista_receptores:
-            if paciente_receptor == receptor:
+            if paciente_receptor.dni == receptor.dni:
                 print("El paciente ya fue registrado")
                 return  # sale de la función si ya estaba
         self.lista_receptores.append(paciente_receptor)
@@ -147,7 +147,6 @@ class Incucai:
                         break
         return           
                     
-
     def imprimir_donantes_receptores(self)-> None:
         """
         Imprime el listado de pacientes donantes y receptores
@@ -185,6 +184,20 @@ class Incucai:
                 return 1
         print ("El DNI ingresado no pertenece a un paciente registrado")
         return -1
+    
+    def imprimir_lista_espera(self, centro_salud: CentrosSalud)-> None:
+        """
+        Imprime la lista de espera segun el centro de salud
+        """
+        c = len (self.lista_receptores)
+        print(f"Pacientes de {centro_salud}\nReceptores")
+        for i in range(c):
+            if self.lista_receptores[i].centro_salud == centro_salud: 
+                receptor = self.lista_receptores[i]
+            else: 
+                receptor = "-"
+            print(f"{i+1}.{str(receptor)}")
+        return 
 
 
 

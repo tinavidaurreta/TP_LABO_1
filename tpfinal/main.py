@@ -110,7 +110,19 @@ def menu(opcion):
                             INCUCAI.registrar_paciente_donante(PACIENTE_DONANTE)
                 break
         case 2:
-            print("Elegiste la opción 2")
+            try:
+                centro_salud_num = int(input('Ingrese su centro de salud afiliado: (1. ALEMAN 2. SWISSMEDICAL 3. AUSTRAL 4. BRITANICO): '))
+                if centro_salud_num == 1 :
+                    centro_salud = ALEMAN
+                elif centro_salud_num == 2:
+                    centro_salud = SWISSMEDICAL
+                elif centro_salud_num == 3:
+                    centro_salud = AUSTRAL 
+                elif centro_salud_num == 4:
+                    centro_salud = BRITANICO
+                INCUCAI.imprimir_lista_espera(centro_salud)
+            except ValueError:
+                print('Por favor, ingrese un número válido.')
         case 3:
             for i in range(5):
                 try:
