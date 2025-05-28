@@ -25,7 +25,7 @@ class CentrosSalud:
         pass
 
     def __str__(self):
-        return f"Nombre: {self.nombre}" 
+        return f"{self.nombre}" 
 
     def asignar_vehiculo(self, centro_receptor) -> Helicoptero | Auto| Avion:
         """

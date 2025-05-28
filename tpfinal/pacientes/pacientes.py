@@ -19,4 +19,4 @@ class Pacientes:
         pass
 
     def __str__(self):
-        return f"Nombre: {self.nombre}" 
+        return f"{self.nombre}" 

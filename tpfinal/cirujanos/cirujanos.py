@@ -13,7 +13,7 @@ class Cirujanos(ABC):
         self.nombre = nombre
 
     def __str__(self):
-        return f"Nombre: {self.nombre}" 
+        return f"{self.nombre}" 
     
     def ocupacion(self)-> None:
         """
