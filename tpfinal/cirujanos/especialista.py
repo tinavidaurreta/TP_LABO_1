@@ -11,7 +11,7 @@ class Especialista(Cirujanos):
         super().__init__(nombre)
         self.tipo = tipo
 
-    def exito(self, organo_operar)-> bool: 
+    def exito(self, organo_operar: str)-> bool: 
         """
         Informo el exito de la operacion segun el organo a operar
         parametros:
