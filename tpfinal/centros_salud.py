@@ -60,12 +60,13 @@ class CentrosSalud:
         Asigna un cirujano para el transplante del organo segun su disponibilidad
         """
         n = len(self.lista_cirujanos)
+        cirujano = 0
         for i in range (0,len(self.lista_cirujanos), 1):
+            self.lista_cirujanos[i].ocupacion()
             if not self.lista_cirujanos[i].ocupado:
                 cirujano = self.lista_cirujanos[i]
-                self.lista_cirujanos[i].ocupado == True
                 return cirujano
-            else:
+            elif i == len(self.lista_cirujanos)-1:
                 raise ErrDeCirujano()
     
     def realizar_transplante(self, fecha_hora_ablacion: datetime, vehiculo:Helicoptero | Auto| Avion , cirujano: Generales | Especialista, organo_operar: str)-> bool:

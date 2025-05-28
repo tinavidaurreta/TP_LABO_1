@@ -47,7 +47,6 @@ class Incucai:
         except ErrDeCirujano as e:
             print(e)
         else:
-            cirujano = centro_donante.asignar_cirujano() # el centro de salud del donante asigna un cirujano
             self.lista_donantes[pos_donante].seteo_fecha() # se setea la fecha de ablacion del organo donante
             n = len(self.lista_receptores)
             print(f"El cirujano asignado para el transplante es {cirujano}")
@@ -92,7 +91,7 @@ class Incucai:
         n = len(self.lista_donantes)
         self.prioridad_receptores()
         k = len(self.lista_donantes[n-1].listado_organos_donar)
-        for i in range(0,len (self.lista_receptores),1): # recorre la lista de receptores 
+        for i in range(0,len (self.lista_receptores)-1,1): # recorre la lista de receptores 
             if self.lista_donantes[n-1].sangre == self.lista_receptores[i].sangre:
                 for j in range(0,len(self.lista_donantes[n-1].listado_organos_donar),1):
                     if self.lista_donantes[n-1].listado_organos_donar[j] == self.lista_receptores[i].organo:

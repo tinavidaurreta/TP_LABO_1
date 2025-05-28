@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 import random
+from datetime import date
 
 class Cirujanos(ABC):
     """
@@ -8,10 +9,24 @@ class Cirujanos(ABC):
 
     def __init__(self,nombre: str):
         self.ocupado = False
+        self.dia_trabajo = 0
         self.nombre = nombre
 
     def __str__(self):
         return f"Nombre: {self.nombre}" 
+    
+    def ocupacion(self)-> None:
+        """
+        Chequea si el cirujano ya opero ese dia
+        """
+        if self.dia_trabajo == date.today():
+           self.ocupado = True
+        elif self.dia_trabajo == 0:
+            self.ocupado = False
+            self.dia_trabajo = date.today()
+        else:
+            self.ocupado = False
+            return
         
     @abstractmethod
 
