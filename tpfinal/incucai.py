@@ -21,12 +21,12 @@ class Incucai:
         m = len(self.lista_receptores)
         for i in range (1,len(self.lista_receptores)-1,1):
             for j in range (0,m-i,1): # el ordenamiento es de abajo hacia arriba, quedando en la primer posicion a quien reciba el trasplante
-                if self.lista_receptores[j].prioridad > self.lista_receptores[j+1].prioridad:
+                if self.lista_receptores[j].prioridad < self.lista_receptores[j+1].prioridad:
                     receptor = self.lista_receptores[j]
                     self.lista_receptores[j] = self.lista_receptores[j+1]
                     self.lista_receptores[j+1] = receptor
                 elif self.lista_receptores[j].prioridad == self.lista_receptores[j+1].prioridad:
-                    if  self.lista_receptores[j].fecha_lista_espera < self.lista_receptores[j+1].fecha_lista_espera:
+                    if  self.lista_receptores[j].fecha_lista_espera > self.lista_receptores[j+1].fecha_lista_espera:
                         receptor = self.lista_receptores[j]
                         self.lista_receptores[j] = self.lista_receptores[j+1]
                         self.lista_receptores[j+1] = receptor
@@ -85,7 +85,7 @@ class Incucai:
             - paciente_donante: donante que se va a registrar
         """
         for donante in self.lista_donantes:
-            if paciente_donante == donante:
+            if paciente_donante.dni == donante.dni:
                 print("El paciente ya fue registrado")
                 return  # sale de la función si ya estaba
         self.lista_donantes.append(paciente_donante)

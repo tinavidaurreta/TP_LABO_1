@@ -15,7 +15,7 @@ AUTO_2 = Auto(60, 0, 80, 0)
 AUTO_3 = Auto(130, 0, 150, 0)
 ALEMAN = CentrosSalud('Aleman', 'Av.Pueyrredon 1640', 'CABA', 'BuenosAires', 1148277000, [DRFELIPE],[HELICOPTERO,AVION,AUTO_1, AUTO_2, AUTO_3])
 SWISSMEDICAL = CentrosSalud('SwissMedical', 'SanMartindeTours 2980', 'Capital', 'Cordoba', 8103338876 , [DRALFREDO], [HELICOPTERO,AVION,AUTO_3])
-BRITANICO = CentrosSalud('Britanico', 'Solis 2171','CABA','BuenosAires', 1143096400, [DRJAVIER],[AUTO_1,AUTO_2,AUTO_3])
+BRITANICO = CentrosSalud('Britanico', 'Solis 2171','CABA','BuenosAires', 1143096400, [DRJAVIER],[AUTO_1,AUTO_2,AUTO_3, AVION,HELICOPTERO])
 AUSTRAL = CentrosSalud('Austral', 'Av.Pres.JuanDomingoPeron 1500', 'Pilar', 'BuenosAires', 2304482000 , [DRAMERCEDES,DRJOAQUIN], [HELICOPTERO,AVION,AUTO_2])
 fecha_clara = datetime(2004, 5, 14)
 fecha_simon = datetime(2004, 2, 13)
@@ -23,7 +23,7 @@ fecha_felipe = datetime(2004, 12, 18)
 fecha_justo = datetime(2003, 5, 20)
 CLARA = Donantes(46111111, 'Clara Gomez', fecha_clara, 'F', 1128112222, 'AB', ALEMAN, 0, 0, ['corazon', 'piel', 'higado','pancreas'])
 SIMON = Receptores(46222222, 'Simon Villanueva',fecha_simon, 'M', 1123459876, 'A', SWISSMEDICAL, 0 , 4, 'hepatitis', False, 'higado')# Inestable: False, Estable: True
-FELIPE = Receptores(46333333, 'Felipe Nini',fecha_felipe, 'M', 1145454545, 'AB' , AUSTRAL, 0, 2, 'FibrosisQuistica', True, 'pulmon')
+FELIPE = Receptores(46333333, 'Felipe Nini',fecha_felipe, 'M', 1145454545, 'A' , AUSTRAL, 0, 2, 'FibrosisQuistica', True, 'pulmon')
 JUSTO = Receptores(46444444, 'Justo Larguia', fecha_justo, 'M', 1145451111, 'B', ALEMAN, 0, 3, 'Paro', True, 'corazon')
 receptores=[FELIPE, SIMON, JUSTO]
 donantes = [CLARA]
@@ -55,7 +55,7 @@ def menu(opcion):
                             tipo_sangre = -1
                             while tipo_sangre == -1:
                                 tipo_sangre = input ('Ingrese su tipo de sangre (A / AB / B / 0):').upper() 
-                                if not(tipo_sangre == "A" or tipo_sangre == "B" or tipo_sangre == "AB" or tipo_sangre == 0):
+                                if tipo_sangre not in["A" ,"B" ,"AB" , "0"]:
                                     print('Por favor, ingrese un tipo de sangre valido.')
                                     tipo_sangre = -1
                             prioridad = random.randint(1,5)
@@ -92,7 +92,7 @@ def menu(opcion):
                             tipo_sangre = -1
                             while tipo_sangre == -1:
                                 tipo_sangre = input ('Ingrese su tipo de sangre (A / AB / B / 0):').upper() 
-                                if not(tipo_sangre == "A" or tipo_sangre == "B" or tipo_sangre == "AB" or tipo_sangre == 0):
+                                if tipo_sangre not in["A" ,"B" ,"AB" , "0"]:
                                     print('Por favor, ingrese un tipo de sangre valido.')
                                     tipo_sangre = -1
                             centro_salud = None
