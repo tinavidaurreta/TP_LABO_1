@@ -1,5 +1,5 @@
-from tpfinal.pacientes.receptores import *
-from tpfinal.pacientes.donantes import *
+from pacientes.receptores import *
+from pacientes.donantes import *
 from centros_salud import *
 
 

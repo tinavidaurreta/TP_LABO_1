@@ -1,4 +1,4 @@
-from tpfinal.vehiculos.vehiculos import *
+from vehiculos.vehiculos import *
 
 
 

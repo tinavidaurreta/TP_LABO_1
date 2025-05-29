@@ -1,4 +1,4 @@
-from tpfinal.pacientes.pacientes import *
+from pacientes.pacientes import *
 
 
 

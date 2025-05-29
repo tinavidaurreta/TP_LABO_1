@@ -52,24 +52,31 @@ def menu(opcion):
                             fecha_str = input('Ingrese una fecha de nacimiento en formato DD/MM/AAAA:')
                             sexo = input ('Ingrese su F o M segun su sexo:').upper()
                             telefono = input ('Ingrese su numero de telefono:')
-                            tipo_sangre = input ('Ingrese su tipo de sangre (A / AB / B / 0):').upper() #ELEMENTAL
+                            tipo_sangre = -1
+                            while tipo_sangre == -1:
+                                tipo_sangre = input ('Ingrese su tipo de sangre (A / AB / B / 0):').upper() 
+                                if not(tipo_sangre == "A" or tipo_sangre == "B" or tipo_sangre == "AB" or tipo_sangre == 0):
+                                    print('Por favor, ingrese un tipo de sangre valido.')
+                                    tipo_sangre = -1
                             prioridad = random.randint(1,5)
                             centro_salud = None
-                            try:
-                                centro_salud_num = int(input('Ingrese su centro de salud afiliado: (1. ALEMAN 2. SWISSMEDICAL 3. AUSTRAL 4. BRITANICO): '))
-                                if centro_salud_num == 1 :
-                                    centro_salud = ALEMAN
-                                elif centro_salud_num == 2:
-                                    centro_salud = SWISSMEDICAL
-                                elif centro_salud_num == 3:
-                                    centro_salud = AUSTRAL 
-                                elif centro_salud_num == 4:
-                                    centro_salud = BRITANICO 
-                            except ValueError:
-                                print('Por favor, ingrese un número válido.')
-                            if centro_salud is None:
-                                print('No se pudo asignar un centro de salud válido, se asignará ALEMAN por defecto.')
-                                centro_salud = ALEMAN
+                            while centro_salud == None:
+                                try:
+                                    centro_salud_num = int(input('Ingrese su centro de salud afiliado: (1. ALEMAN 2. SWISSMEDICAL 3. AUSTRAL 4. BRITANICO): '))
+                                    if centro_salud_num == 1 :
+                                        centro_salud = ALEMAN
+                                    elif centro_salud_num == 2:
+                                        centro_salud = SWISSMEDICAL
+                                    elif centro_salud_num == 3:
+                                        centro_salud = AUSTRAL 
+                                    elif centro_salud_num == 4:
+                                        centro_salud = BRITANICO
+                                    else: 
+                                        print('Por favor, ingrese un número válido.')
+                                        centro_salud = None
+                                except ValueError:
+                                    print('Por favor, ingrese un número válido.')
+                                    centro_salud = None
                             patologia = input ('Ingrese su patologia:')
                             organo = input ('Ingrese el organo necesitante:').lower()
                             fecha_lista_espera = datetime.now()
@@ -82,25 +89,32 @@ def menu(opcion):
                             fecha_str = input('Ingrese una fecha de nacimiento en formato DD/MM/AAAA: ')
                             sexo = input ('Ingrese su F o M segun su sexo:')
                             telefono = input ('Ingrese su numero de telefono:')
-                            tipo_sangre = input ('Ingrese su tipo de sangre (A / AB / B / 0):').upper()
+                            tipo_sangre = -1
+                            while tipo_sangre == -1:
+                                tipo_sangre = input ('Ingrese su tipo de sangre (A / AB / B / 0):').upper() 
+                                if not(tipo_sangre == "A" or tipo_sangre == "B" or tipo_sangre == "AB" or tipo_sangre == 0):
+                                    print('Por favor, ingrese un tipo de sangre valido.')
+                                    tipo_sangre = -1
                             centro_salud = None
                             fecha_fallecimiento_hora = datetime.now()
                             fecha_hora_ablacion = 0
-                            try:
-                                centro_salud_num = int(input('Ingrese su centro de salud afiliado: (1. ALEMAN 2. SWISSMEDICAL 3. AUSTRAL 4. BRITANICO): '))
-                                if centro_salud_num == 1 :
-                                    centro_salud = ALEMAN
-                                elif centro_salud_num == 2:
-                                    centro_salud = SWISSMEDICAL
-                                elif centro_salud_num == 3:
-                                    centro_salud = AUSTRAL 
-                                elif centro_salud_num == 4:
-                                    centro_salud = BRITANICO 
-                            except ValueError:
-                                print('Por favor, ingrese un número válido.')
-                            if centro_salud is None:
-                                print('No se pudo asignar un centro de salud válido, se asignará ALEMAN por defecto.')
-                                centro_salud = ALEMAN 
+                            while centro_salud == None:
+                                try:
+                                    centro_salud_num = int(input('Ingrese su centro de salud afiliado: (1. ALEMAN 2. SWISSMEDICAL 3. AUSTRAL 4. BRITANICO): '))
+                                    if centro_salud_num == 1 :
+                                        centro_salud = ALEMAN
+                                    elif centro_salud_num == 2:
+                                        centro_salud = SWISSMEDICAL
+                                    elif centro_salud_num == 3:
+                                        centro_salud = AUSTRAL 
+                                    elif centro_salud_num == 4:
+                                        centro_salud = BRITANICO
+                                    else: 
+                                        print('Por favor, ingrese un número válido.')
+                                        centro_salud = None
+                                except ValueError:
+                                    print('Por favor, ingrese un número válido.')
+                                    centro_salud = None
                             organos = input ('Ingrese el/los organos donantes:').lower()
                             palabra = ""
                             lista_organos = []
@@ -119,30 +133,38 @@ def menu(opcion):
                             print('Debe ingresar "R" o "D"')
                 break
         case 2:
-            try:
-                centro_salud_num = int(input('Ingrese su centro de salud afiliado: (1. ALEMAN 2. SWISSMEDICAL 3. AUSTRAL 4. BRITANICO): '))
-                if centro_salud_num == 1 :
-                    centro_salud = ALEMAN
-                elif centro_salud_num == 2:
-                    centro_salud = SWISSMEDICAL
-                elif centro_salud_num == 3:
-                    centro_salud = AUSTRAL 
-                elif centro_salud_num == 4:
-                    centro_salud = BRITANICO
-                INCUCAI.imprimir_lista_espera(centro_salud)
-            except ValueError:
-                print('Por favor, ingrese un número válido.')
+            centro_salud = None
+            while centro_salud == None:
+                try:
+                    centro_salud_num = int(input('Ingrese su centro de salud afiliado: (1. ALEMAN 2. SWISSMEDICAL 3. AUSTRAL 4. BRITANICO): '))
+                    if centro_salud_num == 1 :
+                        centro_salud = ALEMAN
+                        INCUCAI.imprimir_lista_espera(centro_salud)
+                    elif centro_salud_num == 2:
+                        centro_salud = SWISSMEDICAL
+                        INCUCAI.imprimir_lista_espera(centro_salud)
+                    elif centro_salud_num == 3:
+                        centro_salud = AUSTRAL 
+                        INCUCAI.imprimir_lista_espera(centro_salud)
+                    elif centro_salud_num == 4:
+                        centro_salud = BRITANICO
+                        INCUCAI.imprimir_lista_espera(centro_salud)
+                    else: 
+                        print('Por favor, ingrese un número válido.')
+                        centro_salud = None
+                except ValueError:
+                    print('Por favor, ingrese un número válido.')
+                    centro_salud = None
         case 3:
-            for i in range(5):
+            resultado = 0
+            while resultado != 1 :
                 try:
                     dni = int(input("Ingrese el DNI del paciente receptor que quiere buscar"))
+                    if dni > 0:
+                        resultado = INCUCAI.prioridad_paciente(dni)
                 except ValueError:
                     print('Debe ingresar un número valido.')
                     dni = 0
-                if dni > 0:
-                    resultado = INCUCAI.prioridad_paciente(dni)
-                    if resultado == 1:# no es correcto
-                        break 
         case 4:
             INCUCAI.imprimir_donantes_receptores()
         case _:
