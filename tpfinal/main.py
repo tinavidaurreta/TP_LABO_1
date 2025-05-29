@@ -45,11 +45,11 @@ def menu(opcion):
                     while j < cantidad:
                         x = input('Ingrese "R" si va a ingresar un paciente receptor o ingrese "D" si va a ingresar un paciente donante:').upper()
                         if x == 'R' :
-                            try:
-                                DNI = int(input ('Ingrese su DNI:')) #ELEMENTAL
-                            except ValueError:
-                                print('Debe ingresar un número entero para el DNI.')
-                                DNI = 0
+                            dni_str = (input ('Ingrese su DNI (8 cifras): ')) #ELEMENTAL
+                            while not (dni_str.isdigit() and len(dni_str) == 8):
+                                print('DNI no valido. Debe ingresar un dni de 8 cifras')
+                                dni_str= input('Ingrese su DNI (8 cifras): ')
+                            DNI = int(dni_str)
                             nombre_apellido = input ('Ingrese su nombre y apellido:')
                             fecha_str = input('Ingrese una fecha de nacimiento en formato DD/MM/AAAA:')
                             sexo = input ('Ingrese su F o M segun su sexo:').upper()
@@ -86,7 +86,11 @@ def menu(opcion):
                             INCUCAI.registrar_paciente_receptor(PACIENTE_RECEPTOR)
                             j += 1
                         elif x == 'D':
-                            DNI = input ('Ingrese su DNI:')
+                            dni_str = (input ('Ingrese su DNI (8 cifras): ')) #ELEMENTAL
+                            while not (dni_str.isdigit() and len(dni_str) == 8):
+                                print('DNI no valido. Debe ingresar un dni de 8 cifras')
+                                dni_str= input('Ingrese su DNI (8 cifras): ')
+                            DNI = int(dni_str)
                             nombre_apellido = input ('Ingrese su nombre y apellido:')
                             fecha_str = input('Ingrese una fecha de nacimiento en formato DD/MM/AAAA: ')
                             sexo = input ('Ingrese su F o M segun su sexo:')
@@ -180,7 +184,13 @@ while True:
     else:
         menu(opcion)
     finally:
-        continuar = input("¿Querés volver al menú? (si/no): ").lower()
-        if continuar != "si":
-            print("Saliendo del sistema...")
-            break
+        while True:
+            continuar = input("¿Querés volver al menú? (si/no): ").lower()
+            if continuar == "si" or continuar == "SI":
+                break
+            elif continuar == "no" or continuar == "NO":
+                print("Saliendo del sistema...")
+                exit()
+            else:
+                print('opcion no valida. Solo se permite "si" o "no"')
+            
