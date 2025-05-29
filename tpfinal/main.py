@@ -13,19 +13,21 @@ AVION = Avion(800, 0, 1000, 0)
 AUTO_1 = Auto(100, 0, 50, 0)
 AUTO_2 = Auto(60, 0, 80, 0)
 AUTO_3 = Auto(130, 0, 150, 0)
-ALEMAN = CentrosSalud('Aleman', 'Av.Pueyrredon 1640', 'CABA', 'BuenosAires', 1148277000, [DRFELIPE],[HELICOPTERO,AVION,AUTO_1, AUTO_2, AUTO_3])
+ALEMAN = CentrosSalud('Aleman', 'Av.Pueyrredon 1640', 'CABA', 'BuenosAires', 1148277000, [DRFELIPE, DRAMARTINA],[HELICOPTERO,AVION,AUTO_1, AUTO_2, AUTO_3])
 SWISSMEDICAL = CentrosSalud('SwissMedical', 'SanMartindeTours 2980', 'Capital', 'Cordoba', 8103338876 , [DRALFREDO], [HELICOPTERO,AVION,AUTO_3])
-BRITANICO = CentrosSalud('Britanico', 'Solis 2171','CABA','BuenosAires', 1143096400, [DRJAVIER],[AUTO_1,AUTO_2,AUTO_3, AVION,HELICOPTERO])
+BRITANICO = CentrosSalud('Britanico', 'Solis 2171','CABA','BuenosAires', 1143096400, [DRJAVIER, DRSEBASTIAN],[AUTO_1,AUTO_2,AVION,HELICOPTERO])
 AUSTRAL = CentrosSalud('Austral', 'Av.Pres.JuanDomingoPeron 1500', 'Pilar', 'BuenosAires', 2304482000 , [DRAMERCEDES,DRJOAQUIN], [HELICOPTERO,AVION,AUTO_2])
 fecha_clara = datetime(2004, 5, 14)
 fecha_simon = datetime(2004, 2, 13)
 fecha_felipe = datetime(2004, 12, 18)
 fecha_justo = datetime(2003, 5, 20)
+fecha_maria = datetime(2005, 6, 20)
 CLARA = Donantes(46111111, 'Clara Gomez', fecha_clara, 'F', 1128112222, 'AB', ALEMAN, 0, 0, ['corazon', 'piel', 'higado','pancreas'])
 SIMON = Receptores(46222222, 'Simon Villanueva',fecha_simon, 'M', 1123459876, 'A', SWISSMEDICAL, 0 , 4, 'hepatitis', False, 'higado')# Inestable: False, Estable: True
 FELIPE = Receptores(46333333, 'Felipe Nini',fecha_felipe, 'M', 1145454545, 'A' , AUSTRAL, 0, 2, 'FibrosisQuistica', True, 'pulmon')
 JUSTO = Receptores(46444444, 'Justo Larguia', fecha_justo, 'M', 1145451111, 'B', ALEMAN, 0, 3, 'Paro', True, 'corazon')
-receptores=[FELIPE, SIMON, JUSTO]
+MARIA = Receptores(46555555, 'Maria Gonzal', fecha_maria, 'M', 1145452222, 'A', ALEMAN, 0, 3, 'Paro', True, 'corazon')
+receptores=[FELIPE, SIMON, JUSTO, MARIA]
 donantes = [CLARA]
 INCUCAI= Incucai(receptores,donantes,[SWISSMEDICAL,AUSTRAL,ALEMAN,BRITANICO])
 
@@ -171,9 +173,14 @@ def menu(opcion):
             print("Opción no válida")
 # Ejemplo de uso
 while True:
-    opcion = int(input("Elige una opción: \n1. Registrar paciente nuevo:\n2. Buscar por centro de salud los pacientes de la lista de espera\n3. Informar la prioridad de un paciente: \n4. Imprimir la lista pacientes donantes y receptores:\n"))
-    menu(opcion)
-    continuar = input("¿Querés volver al menú? (si/no): ").lower()
-    if continuar != "si":
-        print("Saliendo del sistema...")
-        break
+    try:
+        opcion = int(input("Elige una opción: \n1. Registrar paciente nuevo:\n2. Buscar por centro de salud los pacientes de la lista de espera\n3. Informar la prioridad de un paciente: \n4. Imprimir la lista pacientes donantes y receptores:\n"))
+    except ValueError:
+        print('Por favor, ingrese un número válido.')
+    else:
+        menu(opcion)
+    finally:
+        continuar = input("¿Querés volver al menú? (si/no): ").lower()
+        if continuar != "si":
+            print("Saliendo del sistema...")
+            break

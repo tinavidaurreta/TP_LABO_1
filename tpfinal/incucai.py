@@ -64,11 +64,11 @@ class Incucai:
                 Chequea si el transplante fue exitoso (elimina al receptor de la lista) o no
                 """
                 if exito :
+                    print(f"El transplante del paciente {self.lista_receptores[pos_receptor]} fue exitoso")
                     if pos_receptor < len(self.lista_receptores) - 1:
                         for i in range(pos_receptor,len(self.lista_receptores)-1,1):
                             self.lista_receptores[i] = self.lista_receptores[i+1]
                     self.lista_receptores = self.lista_receptores[:-1]
-                    print("El transplante fue exitoso")
                 else:
                     self.lista_receptores[pos_receptor].prioridad = 1
                     self.lista_receptores[pos_receptor].estado = False # Inestable: False, Estable: True
@@ -84,37 +84,45 @@ class Incucai:
         parametros:
             - paciente_donante: donante que se va a registrar
         """
+        if len(paciente_donante.listado_organos_donar) == 0:
+            print("El paciente donante no tiene organos para donar")
+            return  # El donante no tiene órganos
+    
         for donante in self.lista_donantes:
             if paciente_donante.dni == donante.dni:
                 print("El paciente ya fue registrado")
                 return  # sale de la función si ya estaba
         self.lista_donantes.append(paciente_donante)
         print("Se ha registrado al donante correctamente") 
+
         """
         Se busca al receptor correspondiente segun su tipo de sangre y organo y se lo guarda en la lista de compatibles.
         """
         n = len(self.lista_donantes)
         self.prioridad_receptores()
-        k = len(self.lista_donantes[n-1].listado_organos_donar)
-        for i in range(0,len (self.lista_receptores)-1,1): # recorre la lista de receptores 
-            if self.lista_donantes[n-1].sangre == self.lista_receptores[i].sangre:
-                for j in range(0,len(self.lista_donantes[n-1].listado_organos_donar),1):
+        i = 0
+        while i < len(self.lista_receptores): # recorre la lista de receptores 
+            if paciente_donante.sangre == self.lista_receptores[i].sangre:
+                for j in range(len(self.lista_donantes[n-1].listado_organos_donar)):
+                    if j >= len(self.lista_donantes[n-1].listado_organos_donar):
+                        break
                     if self.lista_donantes[n-1].listado_organos_donar[j] == self.lista_receptores[i].organo:
                         pos_receptor = i
                         pos_organo = j
                         self.trasladar_organo(pos_receptor,n-1) #ya que la lista esta ordenada de mayor prioridad a menor
+                        i += 1
                         """ 
                         Se elimina de la lista de organos del donante el organo que recibira el receptor ya encontrado o, si es su ultimo organo, se elimina al donante de la lista
                         """
-                        if k == 1:
+                        for l in range(pos_organo,len(self.lista_donantes[n-1].listado_organos_donar)-1,1): # borra el organo del donante
+                            self.lista_donantes[n-1].listado_organos_donar[l] = self.lista_donantes[n-1].listado_organos_donar[l+1]
+                        self.lista_donantes[n-1].listado_organos_donar = self.lista_donantes[n-1].listado_organos_donar[:-1] 
+                        if len(self.lista_donantes[n-1].listado_organos_donar) == 0:
                             for r in range(n-1,len(self.lista_donantes)-1,1): # borra al donante ya que solo donaba uno solo
                                 self.lista_donantes[r] = self.lista_donantes[r+1]
-                                self.lista_donantes = self.lista_donantes[:-1]
-                        else:
-                            for l in range(pos_organo,len(self.lista_donantes[n-1].listado_organos_donar)-1,1): # borra el organo del donante
-                                self.lista_donantes[n-1].listado_organos_donar[l] = self.lista_donantes[n-1].listado_organos_donar[l+1]
-                            self.lista_donantes[n-1].listado_organos_donar = self.lista_donantes[n-1].listado_organos_donar[:-1]
-                        break
+                            self.lista_donantes = self.lista_donantes[:-1]
+            else:
+                i += 1
         return
 
     def registrar_paciente_receptor(self, paciente_receptor: Receptores)-> None:
