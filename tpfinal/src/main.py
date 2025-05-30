@@ -1,20 +1,20 @@
 from incucai import *
 import random 
 
-DRFELIPE = Generales('Dr.Felipe')
-DRAMARTINA = Especialista('Dra.Martina','cardiovascular')
-DRALFREDO = Especialista('Dr.Alfredo','pulmonar')
-DRSEBASTIAN = Especialista('Dr.Sebastian','traumatologo')
-DRJOAQUIN = Generales('Dr.Joaquin')
-DRAMERCEDES = Especialista('Dra.Mercedes','plastico')
-DRJAVIER = Especialista('Dr.Javier','gastroenterologo')
+DRFELIPE = Generales('Dr.Felipe Gonzles')
+DRAMARTINA = Especialista('Dra.Martina Steiselboin','cardiovascular')
+DRALFREDO = Especialista('Dr.Alfredo Vidaurreta','pulmonar')
+DRSEBASTIAN = Especialista('Dr.Sebastian Vidaurreta','traumatologo')
+DRJOAQUIN = Generales('Dr.Joaquin Villa')
+DRAMERCEDES = Especialista('Dra.Mercedes Galardi','plastico')
+DRJAVIER = Especialista('Dr.Javier Martinez','gastroenterologo')
 HELICOPTERO = Helicoptero(300, 0, 500, 0)#TRAFICO SE SUMA EN KM A LA DIST
 AVION = Avion(800, 0, 1000, 0)
 AUTO_1 = Auto(100, 0, 50, 0)
-AUTO_2 = Auto(60, 0, 80, 0)
+AUTO_2 = Auto(60, 0, 80, 900000000000)
 AUTO_3 = Auto(130, 0, 150, 0)
 ALEMAN = CentrosSalud('Aleman', 'Av.Pueyrredon 1640', 'CABA', 'BuenosAires', 1148277000, [DRFELIPE, DRAMARTINA],[HELICOPTERO,AVION,AUTO_1, AUTO_2, AUTO_3])
-SWISSMEDICAL = CentrosSalud('SwissMedical', 'SanMartindeTours 2980', 'Capital', 'Cordoba', 8103338876 , [DRALFREDO], [HELICOPTERO,AVION,AUTO_3])
+SWISSMEDICAL = CentrosSalud('SwissMedical', 'SanMartindeTours 2980', 'Capital', 'Cordoba', 8103338876 , [DRALFREDO], [HELICOPTERO,AVION,AUTO_1])
 BRITANICO = CentrosSalud('Britanico', 'Solis 2171','CABA','BuenosAires', 1143096400, [DRJAVIER, DRSEBASTIAN],[AUTO_1,AUTO_2,AVION,HELICOPTERO])
 AUSTRAL = CentrosSalud('Austral', 'Av.Pres.JuanDomingoPeron 1500', 'Pilar', 'BuenosAires', 2304482000 , [DRAMERCEDES,DRJOAQUIN], [HELICOPTERO,AVION,AUTO_2])
 fecha_clara = datetime(2004, 5, 14)
@@ -34,7 +34,8 @@ INCUCAI= Incucai(receptores,donantes,[SWISSMEDICAL,AUSTRAL,ALEMAN,BRITANICO])
 def menu(opcion):
     match opcion:
         case 1:
-            for i in range(5):
+            cantidad = 0
+            while cantidad == 0:
                 try:
                     cantidad = int(input('Ingrese cuanta cantidad de pacientes quiere registrar'))
                 except ValueError:
@@ -45,7 +46,7 @@ def menu(opcion):
                     while j < cantidad:
                         x = input('Ingrese "R" si va a ingresar un paciente receptor o ingrese "D" si va a ingresar un paciente donante:').upper()
                         if x == 'R' :
-                            dni_str = (input ('Ingrese su DNI (8 cifras): ')) #ELEMENTAL
+                            dni_str = (input ('Ingrese su DNI (8 cifras): ')) 
                             while not (dni_str.isdigit() and len(dni_str) == 8):
                                 print('DNI no valido. Debe ingresar un dni de 8 cifras')
                                 dni_str= input('Ingrese su DNI (8 cifras): ')
@@ -121,7 +122,7 @@ def menu(opcion):
                                 except ValueError:
                                     print('Por favor, ingrese un número válido.')
                                     centro_salud = None
-                            organos = input ('Ingrese el/los organos donantes:').lower()
+                            organos = input ('Ingrese el/los organos donantes (con espacio entre medio):').lower()
                             palabra = ""
                             lista_organos = []
                             for caracter in organos:
@@ -137,7 +138,6 @@ def menu(opcion):
                             j += 1
                         else:
                             print('Debe ingresar "R" o "D"')
-                break
         case 2:
             centro_salud = None
             while centro_salud == None:
@@ -163,7 +163,7 @@ def menu(opcion):
                     centro_salud = None
         case 3:
             resultado = 0
-            while resultado != 1 :
+            while resultado != 1:
                 try:
                     dni = int(input("Ingrese el DNI del paciente receptor que quiere buscar"))
                     if dni > 0:
@@ -186,9 +186,9 @@ while True:
     finally:
         while True:
             continuar = input("¿Querés volver al menú? (si/no): ").lower()
-            if continuar == "si" or continuar == "SI":
+            if continuar == "si":
                 break
-            elif continuar == "no" or continuar == "NO":
+            elif continuar == "no":
                 print("Saliendo del sistema...")
                 exit()
             else:
