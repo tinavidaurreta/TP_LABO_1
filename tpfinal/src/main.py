@@ -122,17 +122,13 @@ def menu(opcion):
                                 except ValueError:
                                     print('Por favor, ingrese un número válido.')
                                     centro_salud = None
-                            organos = input ('Ingrese el/los organos donantes (con espacio entre medio):').lower()
-                            palabra = ""
-                            lista_organos = []
-                            for caracter in organos:
-                                if caracter != " ":
-                                    palabra += caracter  # va construyendo la palabra
-                                elif palabra:
-                                        lista_organos.append(palabra)
-                                        palabra = ""  # reinicia para la siguiente palabra            
-                            if palabra:# Añadir la última palabra si no termina con espacio
-                                lista_organos.append(palabra)
+                            lista_organos =[]
+                            while True:
+                                organo = input ('Ingrese el/los organos donantes (con espacio entre medio):').lower()
+                                lista_organos.append(organo)
+                                respuesta = input("¿Querés agregar otro órgano? (si/no): ").lower()
+                                if respuesta != "si":
+                                    break
                             PACIENTE_DONANTE = Donantes(DNI, nombre_apellido, fecha_str, sexo, telefono, tipo_sangre, centro_salud, fecha_fallecimiento_hora, fecha_hora_ablacion, lista_organos)
                             INCUCAI.registrar_paciente_donante(PACIENTE_DONANTE)
                             j += 1

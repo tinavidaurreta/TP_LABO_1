@@ -102,7 +102,7 @@ class Incucai:
         self.prioridad_receptores()
         i = 0
         while i < len(self.lista_receptores): # recorre la lista de receptores 
-            if paciente_donante.sangre == self.lista_receptores[i].sangre:
+            if self.lista_donantes[n-1].sangre == self.lista_receptores[i].sangre:
                 for j in range(len(self.lista_donantes[n-1].listado_organos_donar)):
                     if j >= len(self.lista_donantes[n-1].listado_organos_donar):
                         break

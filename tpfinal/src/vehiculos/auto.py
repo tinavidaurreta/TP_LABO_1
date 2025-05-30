@@ -19,7 +19,7 @@ class Auto(Vehiculos):
         returns:
             Retorna en horas el tiempo total del trayecto incluyendo al trafico
         """ 
-        return  (self.dist + self.trafico) / self.velocidad 
-
+        resultado = (self.dist.__add__(self.trafico)) / self.velocidad 
+        return  resultado
 
  
