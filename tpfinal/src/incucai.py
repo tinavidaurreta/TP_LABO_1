@@ -102,8 +102,8 @@ class Incucai:
         self.prioridad_receptores()
         i = 0
         while i < len(self.lista_receptores): # recorre la lista de receptores 
-            if self.lista_donantes[n-1].sangre == self.lista_receptores[i].sangre:
-                for j in range(len(self.lista_donantes[n-1].listado_organos_donar)):
+            for j in range(len(self.lista_donantes[n-1].listado_organos_donar)):
+                if self.lista_donantes[n-1].sangre == self.lista_receptores[i].sangre:
                     if j >= len(self.lista_donantes[n-1].listado_organos_donar):
                         break
                     if self.lista_donantes[n-1].listado_organos_donar[j] == self.lista_receptores[i].organo:
@@ -121,8 +121,8 @@ class Incucai:
                             for r in range(n-1,len(self.lista_donantes)-1,1): # borra al donante ya que solo donaba uno solo
                                 self.lista_donantes[r] = self.lista_donantes[r+1]
                             self.lista_donantes = self.lista_donantes[:-1]
-            else:
-                i += 1
+                else:
+                    i += 1
         return
 
     def registrar_paciente_receptor(self, paciente_receptor: Receptores)-> None:
